@@ -1,0 +1,63 @@
+.css_image_div {
+	width: 29%;
+	display: inline-block;
+	margin: 0 4% 2% 0;
+	background-color: white;
+}
+@media (max-width: 900px) {
+  .css_image_div {
+		width: 45%;
+		margin: 0 5% 5% 0
+    } 
+}
+
+.menu_list_div{
+	margin: 0 0% 0 5%;
+}
+button.right{
+	float: right;
+    margin: 2% 5% 0 0;
+	/*width: 100%*/
+}
+
+.css_ul {
+	/*flex-direction:row;*/
+	padding: 5%
+}
+
+.img_color{
+	background-color: beige;
+}
+
+.item_img{
+    overflow: hidden;
+	margin: 6% 5% 3% 5%;
+}
+
+.disply_inline_block{
+	display: inline-block;
+}
+
+.float_right{
+	float: right;
+}	
+
+.text_color{
+	color: #43425d;
+	font-size: 18px;
+}
+
+.menu_text_h1 {
+	/*flex-direction:row;*/
+	padding: 2% 5% 0 5%;
+	display: inline-block;
+	color: #43425d;
+}
+
+.menu_list_body{
+	background-color: #f0f0f7;
+}
+.div_menu_list_body{
+	overflow: hidden;
+	margin-bottom: 3%;
+}
