@@ -1,8 +1,7 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 import { Route, Link, BrowserRouter as Router } from 'react-router-dom'
-import Form from './form'
+import MenuForm from './form'
 import List from './list';
 import TeamComponent from './TeamComponent';
 
@@ -14,7 +13,10 @@ function App() {
       </header>
       <Router>
         <div>
-          <Route exact path='/form' component={Form}></Route>
+         {/*     
+           <Route exact path='/team' component={TeamComponent}></Route>
+        */}
+          <Route exact path='/form' component={MenuForm}></Route>
           <Route exact path='/' component={List}></Route>
 
         </div>

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import logo from './../logo.svg';
-import './index.css';
+import './list_index.css';
 import { withRouter } from 'react-router-dom';
-import { Button, Card, CardBody, CardGroup, Col, Container, Input, InputGroup, InputGroupAddon, InputGroupText, Row, NavLink  } from 'reactstrap';
+import { Button  } from 'reactstrap';
 
 
 
@@ -15,22 +15,22 @@ function Item(props) {
 	        <div className="disply_inline_block ">
 	        	{props.item.option}<br/><b>{props.item.name}</b>
 	        </div>
-	        <div className="float_right">{props.item.price}</div>
+	        <div className="float_right">${props.item.price}</div>
 	    </div>
       </div> )
 }
 
 function MenuList() {
   const menu_list = [ 
-  		{ url:logo , option:"Main Course" , price:5 , name:"Pizza"},
-  		{ url:logo , option:"Main Course" , price:10 , name:"Pizza"},
-  		{ url:logo , option:"Main Course" , price:15 , name:"Pizza"},  		  		
-  		{ url:logo , option:"Main Course" , price:20 , name:"Pizza"},
+  		{ id:1 , url:logo , option:"Main Course" , price:5 , name:"Pizza"},
+  		{ id:2 , url:logo , option:"Main Course" , price:10 , name:"Pizza"},
+  		{ id:3 , url:logo , option:"Main Course" , price:15 , name:"Pizza"},  		  		
+  		{ id:4 , url:logo , option:"Main Course" , price:20 , name:"Pizza"},
   		];
 
   return (
     <div className='menu_list_div'>
-      {menu_list.map((item) => <Item key={item} item={item} />)}
+      {menu_list.map((item) => <Item key={item.id} item={item} />)}
     </div>
   );
 }
