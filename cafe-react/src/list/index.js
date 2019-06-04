@@ -46,8 +46,6 @@ class MenuList extends Component {
   constructor(props) {
     super(props)
   	this.menu_list = [];
-    console.log('process.env.REACT_APP_DEV_API_URL');
-    console.log(process.env.REACT_APP_DEV_API_URL);  	
 
 	const firebase_db = Firebase.firestore();
 	var menuRef = firebase_db.collection('menu');

@@ -57,7 +57,6 @@ class MenuForm extends React.Component {
   }
 
   uploadImage(event) {
-    let file = event.target.files[0];
     this.setState({ photo: event.target.files[0] })
   }
 
