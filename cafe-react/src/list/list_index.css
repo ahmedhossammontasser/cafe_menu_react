@@ -4,7 +4,7 @@
 	margin: 0 4% 2% 0;
 	background-color: white;
 }
-@media (max-width: 900px) {
+@media (max-width: 960px) {
   .css_image_div {
 		width: 45%;
 		margin: 0 5% 5% 0

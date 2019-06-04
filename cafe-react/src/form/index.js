@@ -1,7 +1,8 @@
 import React from "react";
 import './form_index.css';
 import { withRouter } from 'react-router-dom';
-import { Col, Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
+import { Col, Button, Form, FormGroup, Label, Input } from 'reactstrap';
+import Firebase from './../firestore';
 
 class MenuForm extends React.Component {
 
@@ -9,7 +10,7 @@ class MenuForm extends React.Component {
      super(props);
      this.goHome = this.goHome.bind(this)
      this.state = {
-        type: "",
+        type: "Side",
         name: "",
         price: "",
         photo: "",
@@ -21,8 +22,19 @@ class MenuForm extends React.Component {
   };
 
   goHome() {
-    console.log(this.state)
-    this.props.history.push('/')
+    const firebase_db = Firebase.firestore();
+    const menuAddFirebase = firebase_db.collection('menu').add({
+      type: this.state.type,
+      name: this.state.name,
+      price: this.state.price,
+      photo: this.state.photo
+    });
+
+    menuAddFirebase.then( result =>{      
+      this.props.history.push('/')
+    }).catch(error => {
+      console.log('error')
+    })
   }
 
   render() {
@@ -36,12 +48,15 @@ class MenuForm extends React.Component {
         <FormGroup row>
           <Label for="type" sm={2}>Type</Label>
           <Col sm={10}>
-            <Input type="select" name="Type" id="type" placeholder="with a placeholder" >
-              <option>Side</option>
-              <option>Main Course</option>
+            <Input type="select" name="type" id="type"  
+                    value={this.state.type}
+                    onChange={this.handleChange}
+            >
+              <option value="Side">Side</option>
+              <option value="Main Course">Main Course</option>
             </Input>
           </Col>
-        </FormGroup>
+        </FormGroup> 
 
         <FormGroup row>
           <Label for="name" sm={2}>Name</Label>
