@@ -8,7 +8,9 @@ class MenuForm extends React.Component {
 
   constructor(props){
      super(props);
-     this.goHome = this.goHome.bind(this)
+     this.saveItem = this.saveItem.bind(this)
+     this.uploadImage = this.uploadImage.bind(this)
+     this.uniqueId = this.uniqueId.bind(this)
      this.state = {
         type: "Side",
         name: "",
@@ -21,20 +23,42 @@ class MenuForm extends React.Component {
     this.setState({ [target.name]: target.value });
   };
 
-  goHome() {
+
+  // https://stackoverflow.com/questions/105034/create-guid-uuid-in-javascript
+  uniqueId() {
+    return 'xxxxx_xxxxx'.replace(/[xy]/g, function(c) {
+      var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+      return v.toString(16);
+    });
+  }
+
+
+  saveItem() {
+    var unique_id = this.uniqueId()
+    
     const firebase_db = Firebase.firestore();
     const menuAddFirebase = firebase_db.collection('menu').add({
       type: this.state.type,
       name: this.state.name,
       price: this.state.price,
-      photo: this.state.photo
+      photo: 'images/'+unique_id+'/'+this.state.photo.name
     });
+    var self = this
 
     menuAddFirebase.then( result =>{      
-      this.props.history.push('/')
+      var storageRef = Firebase.storage().ref();
+      var imagesRef = storageRef.child('images/'+unique_id+'/'+this.state.photo.name);
+      imagesRef.put(this.state.photo).then(function(snapshot) {
+        self.props.history.push('/')
+      });
     }).catch(error => {
       console.log('error')
     })
+  }
+
+  uploadImage(event) {
+    let file = event.target.files[0];
+    this.setState({ photo: event.target.files[0] })
   }
 
   render() {
@@ -82,14 +106,14 @@ class MenuForm extends React.Component {
         <FormGroup row>
           <Label for="photo" sm={2}>Photo</Label>
           <Col sm={10}>
-            <Input type="file" name="photo" id="photo" />
+            <Input type="file" name="photo" id="photo" onChange={this.uploadImage}/>
           </Col>
         </FormGroup>
 
 
         <FormGroup check row>
           <Col sm={{ size: 10, offset: 2 }}>
-            <Button color="primary" onClick={this.goHome} >Save Item</Button>
+            <Button color="primary" onClick={this.saveItem} >Save Item</Button>
 
           </Col>
         </FormGroup>

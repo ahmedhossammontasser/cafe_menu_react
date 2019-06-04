@@ -6,21 +6,41 @@ import { Button  } from 'reactstrap';
 import Firebase from './../firestore';
 
 
-function Item(props) {
+// function Item(props) {
+class Item extends Component {
 
+  	constructor(props) {
+    	super(props)
 
-  return( <div className='css_image_div'>
-        <img src={props.item.url} className="img_color" alt="props.item.url"/>
-        <div className="item_img text_color">
-	        <div className="disply_inline_block ">
-	        	{props.item.type}<br/><b>{props.item.name}</b>
-	        </div>
-	        <div className="float_right">${props.item.price}</div>
-	    </div>
-      </div> )
+    	var storageRef = Firebase.storage().ref();
+
+		var self = this
+		if (this.props.item.url) {
+	    	var starsRef = storageRef.child(this.props.item.url);
+			starsRef.getDownloadURL().then(function(url) {
+			  self.props.item.url = url 
+			  self.setState({self})
+			})
+		}
+		else{
+			this.props.item.url = logo
+		}
+	}
+
+	render(){
+	    return( <div className='css_image_div'>
+	        <img src={this.props.item.url} className="img_color" alt="props.item.url"/>
+	        <div className="item_img text_color">
+		        <div className="disply_inline_block ">
+		        	{this.props.item.type}<br/><b>{this.props.item.name}</b>
+		        </div>
+		        <div className="float_right">${this.props.item.price}</div>
+		    </div>
+	      </div> 
+	    )		
+	}
 }
 
-// function MenuList() {
 class MenuList extends Component {
 
   constructor(props) {
@@ -31,7 +51,6 @@ class MenuList extends Component {
 
 	const firebase_db = Firebase.firestore();
 	var menuRef = firebase_db.collection('menu');
-	// var getDoc = menuRef.get()
 	menuRef.get().then(snapshot => {
 		    if (snapshot.empty) {
 		      console.log('No matching documents.');
@@ -40,8 +59,9 @@ class MenuList extends Component {
 		    snapshot.forEach(doc => {
 		      if (doc.data().name) {
 		      	  var data = doc.data()
-			      this.menu_list.push(  { id:doc.id , url: logo , type:data.type , price:data.price , name:data.name }  )
+			      this.menu_list.push(  { id:doc.id , url: data.photo  , type:data.type , price:data.price , name:data.name }  )
 		      }
+
 		    });
 			this.setState( this.menu_list)		    
 
