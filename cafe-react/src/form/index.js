@@ -36,21 +36,33 @@ class MenuForm extends React.Component {
   saveItem() {
     var unique_id = this.uniqueId()
     
+    if (this.state.photo.name) {
+      var photo_url = 'images/'+unique_id+'/'+this.state.photo.name
+    } else {
+      var photo_url = ''
+    }
+
     const firebase_db = Firebase.firestore();
     const menuAddFirebase = firebase_db.collection('menu').add({
       type: this.state.type,
       name: this.state.name,
       price: this.state.price,
-      photo: 'images/'+unique_id+'/'+this.state.photo.name
+      photo: photo_url
     });
     var self = this
 
-    menuAddFirebase.then( result =>{      
-      var storageRef = Firebase.storage().ref();
-      var imagesRef = storageRef.child('images/'+unique_id+'/'+this.state.photo.name);
-      imagesRef.put(this.state.photo).then(function(snapshot) {
-        self.props.history.push('/')
-      });
+    menuAddFirebase.then( result =>{
+      if (photo_url != ''){
+        var storageRef = Firebase.storage().ref();
+        var imagesRef = storageRef.child('images/'+unique_id+'/'+this.state.photo.name);
+        imagesRef.put(this.state.photo).then(function(snapshot) {
+          self.props.history.push('/')
+        });        
+      }
+      else{
+          self.props.history.push('/')        
+      }
+
     }).catch(error => {
       console.log('error')
     })
